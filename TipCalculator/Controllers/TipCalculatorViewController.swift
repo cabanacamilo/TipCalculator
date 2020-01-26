@@ -10,7 +10,7 @@ import UIKit
 
 class TipCalculatorViewController: UIViewController {
     
-    var keyboardHeight = CGFloat()
+    var heightTipVIew = NSLayoutConstraint()
     
     let titleLabel: UILabel = {
         let label = UILabel()
@@ -31,7 +31,6 @@ class TipCalculatorViewController: UIViewController {
     
     let amountTextField: TipTextField = {
         let textField = TipTextField()
-        textField.becomeFirstResponder()
         textField.keyboardType = .decimalPad
         textField.placeholder = "Bill Amount"
         return textField
@@ -83,9 +82,22 @@ class TipCalculatorViewController: UIViewController {
         return stackView
     }()
     
+    let buttonsView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let tipView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
+        hideKeyboardWhenTappedAround()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)),
         name: UIResponder.keyboardDidShowNotification, object: nil)
         calculateButton.addTarget(self, action: #selector(goToResult), for: .touchUpInside)
@@ -94,25 +106,42 @@ class TipCalculatorViewController: UIViewController {
     
     func setLayout() {
         view.backgroundColor = .cyan
-        view.addSubview(tipInfoStackView)
-        view.addSubview(titleView)
+        view.addSubview(tipView)
+        tipView.addSubview(tipInfoStackView)
+        tipView.addSubview(titleView)
         titleView.addSubview(titleLabel)
+        tipView.addSubview(buttonsView)
+        buttonsView.addSubview(buttonsStackView)
         tipInfoStackView.addArrangedSubview(amountTextField)
         tipInfoStackView.addArrangedSubview(percentTextField)
         tipInfoStackView.addArrangedSubview(divideByTextField)
-        tipInfoStackView.addArrangedSubview(buttonsStackView)
         buttonsStackView.addArrangedSubview(clearButton)
         buttonsStackView.addArrangedSubview(calculateButton)
-        tipInfoStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        tipInfoStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
-        tipInfoStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
+        tipView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        tipView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        tipView.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
+        heightTipVIew = tipView.heightAnchor.constraint(equalToConstant: view.frame.height)
+        tipInfoStackView.centerYAnchor.constraint(equalTo: tipView.centerYAnchor).isActive = true
+        tipInfoStackView.leadingAnchor.constraint(equalTo: tipView.leadingAnchor, constant: 10).isActive = true
+        tipInfoStackView.trailingAnchor.constraint(equalTo: tipView.trailingAnchor, constant: -10).isActive = true
         titleView.bottomAnchor.constraint(equalTo: tipInfoStackView.topAnchor).isActive = true
-        titleView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        titleView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        titleView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        titleView.topAnchor.constraint(equalTo: tipView.topAnchor).isActive = true
+        titleView.leadingAnchor.constraint(equalTo: tipView.leadingAnchor).isActive = true
+        titleView.trailingAnchor.constraint(equalTo: tipView.trailingAnchor).isActive = true
         titleLabel.centerXAnchor.constraint(equalTo: titleView.centerXAnchor).isActive = true
         titleLabel.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
+        buttonsView.bottomAnchor.constraint(equalTo: tipView.bottomAnchor).isActive = true
+        buttonsView.trailingAnchor.constraint(equalTo: tipView.trailingAnchor).isActive = true
+        buttonsView.leadingAnchor.constraint(equalTo: tipView.leadingAnchor).isActive = true
+        buttonsView.topAnchor.constraint(equalTo: tipInfoStackView.bottomAnchor).isActive = true
+        buttonsStackView.leadingAnchor.constraint(equalTo: tipView.leadingAnchor, constant: 10).isActive = true
+        buttonsStackView.trailingAnchor.constraint(equalTo: tipView.trailingAnchor, constant: -10).isActive = true
+        buttonsStackView.centerYAnchor.constraint(equalTo: buttonsView.centerYAnchor).isActive = true
+        NSLayoutConstraint.activate([heightTipVIew])
     }
+}
+
+extension TipCalculatorViewController {
     
     @objc func goToResult() {
         if amountTextField.text != "" && percentTextField.text != "" && divideByTextField.text != "" {
@@ -129,12 +158,26 @@ class TipCalculatorViewController: UIViewController {
         divideByTextField.text = ""
     }
     
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyboard() {
+        NSLayoutConstraint.deactivate([heightTipVIew])
+        heightTipVIew = tipView.heightAnchor.constraint(equalToConstant: view.frame.height)
+        NSLayoutConstraint.activate([heightTipVIew])
+        view.endEditing(true)
+    }
+    
     @objc func keyboardWillShow(notification: Notification) {
-          let userInfo:NSDictionary = notification.userInfo! as NSDictionary
+        let userInfo:NSDictionary = notification.userInfo! as NSDictionary
         let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
-          let keyboardRectangle = keyboardFrame.cgRectValue
-          keyboardHeight = keyboardRectangle.height
-        print(keyboardHeight)
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        NSLayoutConstraint.deactivate([heightTipVIew])
+        heightTipVIew = tipView.heightAnchor.constraint(equalToConstant: view.frame.height - keyboardRectangle.height)
+        NSLayoutConstraint.activate([heightTipVIew])
     }
 }
 
