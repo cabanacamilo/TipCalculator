@@ -16,6 +16,8 @@
 		2F19D86923DACB1000C1B27E /* TipButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F19D86823DACB1000C1B27E /* TipButton.swift */; };
 		2F19D86C23DACF5B00C1B27E /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F19D86B23DACF5B00C1B27E /* ResultViewController.swift */; };
 		2F19D86F23DAD22400C1B27E /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F19D86E23DAD22400C1B27E /* Alert.swift */; };
+		2F2933B023DE830700974CF2 /* Tip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2933AF23DE830700974CF2 /* Tip.swift */; };
+		2F2933B223DE86D500974CF2 /* ResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2933B123DE86D500974CF2 /* ResultTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,8 @@
 		2F19D86823DACB1000C1B27E /* TipButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipButton.swift; sourceTree = "<group>"; };
 		2F19D86B23DACF5B00C1B27E /* ResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
 		2F19D86E23DAD22400C1B27E /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		2F2933AF23DE830700974CF2 /* Tip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tip.swift; sourceTree = "<group>"; };
+		2F2933B123DE86D500974CF2 /* ResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +83,7 @@
 			children = (
 				2F19D86623DACA3900C1B27E /* TipTextField.swift */,
 				2F19D86823DACB1000C1B27E /* TipButton.swift */,
+				2F2933B123DE86D500974CF2 /* ResultTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -96,6 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				2F19D86E23DAD22400C1B27E /* Alert.swift */,
+				2F2933AF23DE830700974CF2 /* Tip.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -171,11 +177,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F19D85423DAC14F00C1B27E /* TipCalculatorViewController.swift in Sources */,
+				2F2933B023DE830700974CF2 /* Tip.swift in Sources */,
 				2F19D85023DAC14F00C1B27E /* AppDelegate.swift in Sources */,
 				2F19D86923DACB1000C1B27E /* TipButton.swift in Sources */,
 				2F19D85223DAC14F00C1B27E /* SceneDelegate.swift in Sources */,
 				2F19D86723DACA3900C1B27E /* TipTextField.swift in Sources */,
 				2F19D86C23DACF5B00C1B27E /* ResultViewController.swift in Sources */,
+				2F2933B223DE86D500974CF2 /* ResultTableViewCell.swift in Sources */,
 				2F19D86F23DAD22400C1B27E /* Alert.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

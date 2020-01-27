@@ -145,7 +145,13 @@ extension TipCalculatorViewController {
     
     @objc func goToResult() {
         if amountTextField.text != "" && percentTextField.text != "" && divideByTextField.text != "" {
-            present(ResultViewController(), animated: true)
+            let resultViewController = ResultViewController()
+            var tipInfo = Tip(amount: 0.0, percent: 0.0, divideBy: 0.0)
+            tipInfo.amount = Float(amountTextField.text ?? "") ?? 0.0
+            tipInfo.percent = Float(percentTextField.text ?? "") ?? 0.0
+            tipInfo.divideBy = Float(divideByTextField.text ?? "") ?? 0.0
+            resultViewController.tipInfo = tipInfo
+            present(resultViewController, animated: true)
         } else {
             let alert = Alert()
             alert.alert(title: "System", message: "Please fill all the text fields", vc: self)

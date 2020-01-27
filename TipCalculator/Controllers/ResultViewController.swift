@@ -10,6 +10,8 @@ import UIKit
 
 class ResultViewController: UIViewController {
     
+    var tipInfo = Tip(amount: 0.0, percent: 0.0, divideBy: 0.0)
+    
     let resultTableView: UITableView = {
         let tableView = UITableView()
         tableView.layer.masksToBounds = true
@@ -24,9 +26,10 @@ class ResultViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
+        print(tipInfo)
         resultTableView.delegate = self
         resultTableView.dataSource = self
-        resultTableView.register(UITableViewCell.self, forCellReuseIdentifier: "ResultsCell")
+        resultTableView.register(ResultTableViewCell.self, forCellReuseIdentifier: "ResultsCell")
     }
     
     func setLayout() {
@@ -50,7 +53,20 @@ extension ResultViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ResultsCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ResultsCell", for: indexPath) as! ResultTableViewCell
+        if indexPath.row == 0 {
+            cell.nameLabel.text = "Tip"
+            cell.resultLabel.text = String(tipInfo.amount * (tipInfo.percent / 100))
+        } else if indexPath.row == 1 {
+            cell.nameLabel.text = "Tip Per Person"
+            cell.resultLabel.text = String((tipInfo.amount * (tipInfo.percent / 100)) / tipInfo.divideBy)
+        } else if indexPath.row == 2 {
+            cell.nameLabel.text = "Total"
+            cell.resultLabel.text = String(tipInfo.amount * (1 + tipInfo.percent / 100))
+        } else if indexPath.row == 3 {
+            cell.nameLabel.text = "Total Per Person"
+            cell.resultLabel.text = String((tipInfo.amount * (1 + tipInfo.percent / 100) / tipInfo.divideBy))
+        }
         return cell
     }
     
